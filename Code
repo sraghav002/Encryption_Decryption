@@ -1,0 +1,64 @@
+import threading
+from tkinter import *
+root = Tk()
+root.geometry("1080x400")
+root.config(bg='royal blue')
+l=Label(text='Cipher',fg='gray99',bg='royal blue',font=("Helvetica",30,"bold"))
+l.pack()
+l1=Label(text='Encrypt',fg='gray99',bg='royal blue',font=("Helvetica",20,"bold"))
+l1.place(x=20,y=58)
+l2=Label(text='Decrypt',fg='gray99',bg='royal blue',font=("Helvetica",20,"bold"))
+l2.place(x=580,y=58)
+var = StringVar()
+encrypt = Text(root,width = 40,height = 11,font=("Helvetica",16),bg="cornflower blue",fg='gray99')
+encrypt.insert(END,"Enter your plain text...")
+encrypt.place(x=20,y=95)
+def default(event):
+    current = encrypt.get("1.0", END)
+    if current == "Enter your plain text...\n":
+        encrypt.delete("1.0", END)
+    elif current == "\n":
+        encrypt.insert("1.0", "Enter your plain text...")
+
+
+
+def func(event):
+    k=encrypt.get("1.0",END)
+    decrypt.delete("1.0",END)
+    for i in k:
+        if i.isupper():
+            j = chr(ord("A")+ord("Z")-ord(i))
+            decrypt.insert(END,j)
+        elif i.islower():
+            j = chr(ord("a") + ord("z") - ord(i))
+            decrypt.insert(END, j)
+        else:
+            decrypt.insert(END, i)
+encrypt.bind("<FocusIn>", default)
+encrypt.bind('<KeyRelease>',func)
+
+
+decrypt = Text(root,width = 40,height = 11,font=("Helvetica",16),bg="cornflower blue",fg='gray99')
+decrypt.insert(END,"Enter your cipher text...")
+decrypt.place(x=580,y=95)
+def func1(event) :
+    k = decrypt.get("1.0", END)
+    encrypt.delete("1.0", END)
+    for i in k:
+        if i.isupper():
+            j = chr(ord("A") + ord("Z") - ord(i))
+            encrypt.insert(END, j)
+        elif i.islower():
+            j = chr(ord("a") + ord("z") - ord(i))
+            encrypt.insert(END, j)
+        else:
+            encrypt.insert(END, i)
+def default1(event):
+    current = decrypt.get("1.0", END)
+    decrypt.delete("1.0", END)
+
+
+decrypt.bind("<FocusIn>", default1)
+decrypt.bind('<KeyRelease>',func1)
+
+root.mainloop()
